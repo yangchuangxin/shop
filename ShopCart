@@ -1,0 +1,81 @@
+package database.GoodsDb;
+import infm.shop.ShopCart;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import database.DbBasic;
+
+public class ShopCartDb extends GoodsDb {
+	private String tableName = "ShopCart";
+
+    public ShopCartDb() {
+        super();
+    }
+
+    public ShopCartDb(String dbPath, String tableName) {
+        super(dbPath, tableName);
+        this.tableName = tableName;
+    }
+
+
+    @Override
+    public void add(Object shopCart) throws SQLException {
+
+        Connection conn = getConn();
+
+        ShopCart scr = (ShopCart)shopCart;
+
+        String sql = "INSERT INTO " + getTableName() + " (goodsName,  " +
+                "buyNumber, price) "+
+                "VALUES(?, ?, ?)";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        pstmt.setString(1, scr.getName());
+        pstmt.setString(2, scr.getNumber());
+        pstmt.setDouble(3, scr.getPrice());
+
+        pstmt.executeUpdate();
+
+        ResultSet rs = pstmt.getGeneratedKeys();
+        rs.next();
+
+        scr.setId(rs.getLong(1));
+
+        pstmt.close();
+        conn.close();
+    }
+
+    @Override
+    public void modify(Object shopcart) throws SQLException {
+
+        Connection conn = getConn();
+
+        ShopCart scr = (ShopCart)shopcart;
+
+        String sql = "UPDATE " + getTableName()
+
+                + "', goodsName='" + scr.getName()
+                + "', buyNumber='" + scr.getNumber()
+                + "', sumPrice='" + scr.getPrice()
+
+                + "' WHERE id='" + scr.getId() + "'";
+
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.executeUpdate();
+
+        pstmt.close();
+        conn.close();
+    }
+
+    @Override
+    public void delete(long id) throws SQLException {
+        DbBasic.delete(getDbPath(), getTableName(), id);
+    }
+
+    @Override
+    public String getTableName() {
+        return tableName;
+    }
+}
