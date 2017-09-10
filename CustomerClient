@@ -1,0 +1,76 @@
+package client;
+
+import java.io.IOException;
+import java.util.Date;
+
+import infm.shop.Order;
+import infm.shop.ShopCart;
+
+public interface CustomerClient { 
+	
+	
+	  /**
+     * 查询一卡通号和消费日期查询消费情况
+     *
+     * @return 返回消费信息
+     */
+    String query(long cardNumber,Date time) throws IOException; //查询消费信息
+    
+    
+    
+    /**
+     * 添加购物车
+     * 
+     * @param goods 被添加的商品
+     * @return 添加成功与否
+     */
+    String addCart(ShopCart goods) throws IOException;  //想要购买的商品信息添加
+    
+    
+    /**
+     *  
+     *  @return 直接返回商店所有的商品信息
+     *  
+     */
+    String allArticle() throws IOException; //返回所有的商品
+    
+    
+    
+    /**
+     * 若要购买商品
+     * 将购物车所有的信息添加到订单中
+     * 
+     * @return 操作成功与否
+     */
+    String addAll(ShopCart shopcart,Order order) throws IOException;  //添加购物车信息到商店的订单中
+    
+    
+    
+    /**
+     * 删除购物车
+     * 
+     * 根据商品名字删除商品
+     * @return 添加成功与否
+     */
+    String deleteCart(String name) throws IOException;  //删除购物车
+    
+    
+    
+    /**
+     * 修改购物车信息
+     * 根据商品名字
+     * 
+     * @return 操作成功与否
+     */
+    String modifyCart(String name) throws IOException; //修改购物车信息
+    
+    
+    
+    /**
+     * 
+     *
+     * @return 返回登陆者所有的购物车信息
+     */
+    String queryCart() throws IOException; //返回购物车信息
+    
+}
