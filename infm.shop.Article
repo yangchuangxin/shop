@@ -1,0 +1,194 @@
+package infm.shop;
+
+import java.util.Date;
+
+/**
+ * 商品信息类
+ */
+public class Article {
+	
+	    private long id = 0;//商品编号
+	    private String name = "";//商品名字
+	    private double purchasePrice = 0.0;//进价
+	    private double profit = 0.0;//收益
+	    private double sellingPrice = 0.0;//商品单价
+	    private String originPlace = "";//商品产地
+	    private int classification = 0;//商品种类
+	    private Date productDate = null;//生产日期
+	    private Date shelfLife = null;//保质期
+	    private Date validUntil = null;//过期日期
+	    private String buyNumber = "";//商品采购的数量
+	    private String backNumber = "";//商品退回的数量
+	    private String saleNumber = "";//商品卖出的数量
+
+	    public Article() {
+
+	    }
+
+	    public static class ArticleClassification {
+	        public static final int TOOLS = 1;
+
+	        private ArticleClassification() {
+	        }
+	    }
+
+
+	    //商品信息的添加
+	    public void addInfo() {
+	        //***
+	        //添加商品编号，名字，产地，单价，功能，类别
+
+	    }
+
+	    //修改商品信息
+	    public void update() {
+	        //对以上基本信息的修改
+	    }
+
+	    //查询商品基本信息
+	    public void query() {
+
+	    }
+
+	    //删除
+	    public void delete() {
+
+	    }
+
+
+	    /**
+	     * 各种 set 与 get
+	     */
+      //商品编号
+	    public void setId(String id) {
+	        if (id.equals(""))
+	            this.id = 0;
+	        else
+	            setId((Long.parseLong(id)));
+	    }
+
+	    public void setId(long id) {
+	        this.id = id;
+	    }
+         //商品名字
+	    public void setName(String name) {
+	        this.name = name;
+	    }
+        //商品售价
+	    public void setSellingPrice(String sellingPrice) {
+	        if (sellingPrice.equals(""))
+	            this.sellingPrice = 0.0;
+	        else
+	            setSellingPrice(Double.parseDouble(sellingPrice));
+	    }
+	    public void setSellingPrice(double sellingPrice) {
+	        this.sellingPrice = sellingPrice;
+	    }
+     //商品进价
+	    public void setPurchasePrice(String purchasePrice) {
+	        if (purchasePrice.equals(""))
+	            this.purchasePrice = 0.0;
+	        else
+	            setPurchasePrice(Double.parseDouble(purchasePrice));
+	    }
+	    public void setPurchasePrice(double purchasePrice) {
+	        this.purchasePrice = purchasePrice;
+	    }
+	    //收益
+	    public void setProfit(String profit){
+	    	if(profit.equals(""))
+	    		this.profit=0.0;
+	    	else
+	    		setProfit(Double.parseDouble(profit));
+	    }
+	    public void setProfit(double profit){
+	    	this.profit=profit;
+	    }
+       //商品产地
+	    public void setOriginPlace(String originPlace) {
+	        this.originPlace = originPlace;
+	    }
+       //商品类别
+	    public void setClassification(String classification) {
+	        if (classification.equals(""))
+	            this.classification = 0;
+	        else
+	            setClassification(Integer.parseInt(classification));
+	    }
+	    public void setClassification(int classification) {
+	        this.classification = classification;
+	    }
+	    //生产日期
+         public void setProductDate(Date productDate){
+	       this.productDate=productDate;
+        }
+         //过期日期
+         public void setValidUntil(Date validUntil){
+        	 this.validUntil=validUntil;
+         }
+         //保质期
+         public void setShelfLife(Date shelfLife){
+        	 this.shelfLife=shelfLife;
+         }
+         //采购的数量
+
+	    public void setBuyNumber(String buyNumber) {
+	        this.buyNumber = buyNumber;
+	    }
+        //退货
+	    public void setBackNumber(String backNumber) {
+	        this.backNumber = backNumber;
+	    }
+        //卖出的数量
+	    public void setSaleNumber(String saleNumber) {
+	        this.saleNumber = saleNumber;
+	    }
+
+	    public long getId() {
+	        return id;
+	    }
+
+	    public String getName() {
+	        return name;
+	    }
+
+	    public double getSellingPrice() {
+	        return sellingPrice;
+	    }
+
+	    public String getOriginPlace() {
+	        return originPlace;
+	    }
+        public double getProfit(){
+	        return profit;
+        }
+	    public double getPurchasePrice() {
+	      return purchasePrice;
+	    }
+
+	    public int getClassification() {
+	        return classification;
+	    }
+       public Date getProductDate(){
+    	   return productDate;
+       }
+       public Date getValidUntil(){
+    	   return validUntil;
+       }
+       public Date getShelfLife(){
+    	   return shelfLife;
+       }
+	    public String getBuyNumber() {
+	        return buyNumber;
+	    }
+
+	    public String getBackNumber() {
+	        return backNumber;
+	    }
+
+	    public String getSaleNumber() {
+	        return saleNumber;
+	    }
+
+}
+
