@@ -1,0 +1,75 @@
+package infm.shop;
+
+import java.util.Date;
+
+/**
+ * 订单信息类
+ */
+public class Order {
+	 public long id=0;//订单编号
+	 private String saleNumber="";//销量
+	 private double sumPrice=0.0;//总价
+	 private String place="";//收货地址
+	 private Date saleDate=null;//售出日期
+	 private long cardNumber=0;//一卡通号
+	    public Order(){
+	      //  Shsh shsh = new Shop();
+	      //  shsh.
+	    }
+	    
+	    
+	    
+	    /**
+	     * 各种set、get
+	     */
+	    public void setId(String id) {
+	        if (id.equals(""))
+	            this.id = 0;
+	        else
+	            setId((Long.parseLong(id)));
+	    }
+
+	    public void setId(long id) {
+	        this.id = id;
+	    }
+	    public void setSaleNumber(String saleNumber){
+	    	this.saleNumber=saleNumber;
+	    }
+	    public void setSumPrice(String sumPrice) {
+	        if (sumPrice.equals(""))
+	            this.sumPrice = 0.0;
+	        else
+	            setSumPrice(Double.parseDouble(sumPrice));
+	    }
+	    public void setSumPrice(double sumPrice) {
+	        this.sumPrice = sumPrice;
+	    }
+	    public void setPlace(String place){
+	    	this.place=place;
+	    }
+	    public void setSaleDate(Date saleDate){
+	    	this.saleDate=saleDate;
+	    }
+	    public void setCardNumber(long cardNumber) {
+	        this.cardNumber = cardNumber;
+	    }
+
+	    public Long getId(){
+	    	return id;
+	    }
+	    public String getSaleNumber(){
+	    	return saleNumber;
+	    }
+	    public double getSumPrice(){
+	    	return sumPrice;
+	    }
+	    public String getPlace(){
+	    	return place;
+	    }
+	    public Date getSaleDate(){
+	    	return saleDate;
+	    }
+	    public long getCardNumber(){
+	    	return cardNumber;
+	    }
+}
