@@ -1,0 +1,24 @@
+package infm.shop;
+/**
+ * 商店信息类
+ */
+public class Shop {
+	private double dayProfit=0.0;//日总利润
+	
+	 Shop(){
+
+	    }
+	
+	  public void setProfit(String dayProfit){
+	    	if(dayProfit.equals(""))
+	    		this.dayProfit=0.0;
+	    	else
+	    		setProfit(Double.parseDouble(dayProfit));
+	    }
+	    public void setProfit(double dayProfit){
+	    	this.dayProfit=dayProfit;
+	    }
+	    public double getProfit(){
+	    	return dayProfit;
+	    }
+}
