@@ -1,0 +1,282 @@
+public class GoodsDb implements DbBasic {
+	 private String dbPath = "/Users/zhangminxue/Desktop/CourseDb.accdb";
+	 private String tableName = "Goods";
+	 public GoodsDb() {
+	    }
+
+	    public GoodsDb(String dbPath, String tableName) {
+	        this.dbPath = dbPath;
+	        this.tableName = tableName;
+	    }
+	    /**
+	     * 连接数据库
+	     *
+	     * @return 连接
+	     */
+	    Connection getConn() throws SQLException {
+	        return DbBasic.getConn(dbPath);
+	    }
+	    /**
+	     * 添加新商品，id 自动生成
+	     *
+	     * @param goods 待添加的商品
+	     */
+	    @Override
+	    public void add(Object article) throws SQLException {
+
+	        Connection conn = getConn();
+
+	        String sql = "INSERT INTO " + getTableName() + " (name, " +
+	                "purchasePrice,sellingPrice, profit,buyNumber, backNumber,saleNumber,productDate,shelfLife,validUntil,originPlace,classification) " +
+	                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, ((Article) article).getName());
+	        pstmt.setDouble(2, ((Article) article).getPurchasePrice());
+	        pstmt.setDouble(3, ((Article) article).getSellingPrice());///商品单价
+	        pstmt.setDouble(4, ((Article) article).getProfit());///商品收益
+	        pstmt.setString(5, ((Article) article).getBuyNumber());
+	        pstmt.setString(6, ((Article) article).getBackNumber());
+	        pstmt.setString(7, ((Article) article).getSaleNumber());
+	        pstmt.setString(8, ((Article) article).getProductDate().toString());
+	        pstmt.setString(9, ((Article) article).getShelfLife().toString());
+	        pstmt.setString(10, ((Article) article).getValidUntil().toString());
+	        pstmt.setString(11, ((Article) article).getOriginPlace());
+	        pstmt.setInt(12, ((Article) article).getClassification());
+	        pstmt.executeUpdate();
+
+	        ResultSet rs = pstmt.getGeneratedKeys();
+	        rs.next();
+
+	        ((Article) article).setId(rs.getLong(1));
+	        pstmt.close();
+	        conn.close();
+	    }
+	  
+	    /**
+	     * 根据商品id 更新商品信息
+	     *
+	     * @param goods 更新后的商品信息(id 未改变)
+	     */
+	    @Override
+	    public void modify(Object goods) throws SQLException {
+
+	        Connection conn = DbBasic.getConn(getDbPath());
+
+	        String sql = "UPDATE " + getTableName()
+	                + "', name='" + ((Article)goods).getName()
+	                + "', purchasePrice='" + ((Article)goods).getPurchasePrice()
+	                + "', sellingPrice='" + ((Article)goods).getSellingPrice()
+	                + "', profit='" + ((Article)goods).getProfit()
+	                + "', buyNumber='" + ((Article)goods).getBuyNumber()
+	                + "', backNumber='" + ((Article)goods).getBackNumber()
+	                + "', saleNumber='" + ((Article)goods).getSaleNumber()
+	                + "', productDate='" + ((Article)goods).getProductDate()
+	                + "', shelfLife='" + ((Article)goods).getShelfLife()
+	                + "', validUntil='"+((Article)goods).getValidUntil()
+	                + "', originPlace='" + ((Article)goods).getOriginPlace()
+	                + "', classification='" + ((Article)goods).getClassification()
+	                + "' WHERE id='" + ((Article)goods).getId() + "'";
+
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.executeUpdate();
+
+	        pstmt.close();
+	        conn.close();
+	    }
+	    @Override
+	    public void modify(String result, String condition) throws SQLException {
+	        DbBasic.modify(getDbPath(), getTableName(), result, condition);
+	    }
+	    /**
+	     * 根据 id 删除
+	     *
+	     * @param id 被删除的 id
+	     */
+	   public void delete(long id) throws SQLException{
+		   DbBasic.delete(getDbPath(), getTableName(),id);
+	    }
+	   /**
+	     * 根据其他删除
+	     *
+	     * @param condition 删除条件。
+	     */
+	   @Override
+	    public void delete(String condition) throws SQLException {
+	        DbBasic.delete(getDbPath(), getTableName(), condition);
+	    }
+	   /**
+	     * 根据一卡通号删除
+	     *
+	     * @param cardNumber 被删除者具有的一卡通号
+	     */
+	   @Override
+	    public void deleteByCardNumber(long cardNumber) throws SQLException {
+	    }
+	   
+	   
+	   /**
+	     * 选择全表
+	     *
+	     * @return 表内全部信息
+	     */
+	    @Override
+	    public ResultSet select() throws SQLException {
+	        return DbBasic.select(getDbPath(), getTableName(), "*");
+	    }
+
+	    
+	    /**
+	     * 根据条件查找全表
+	     *
+	     * @param condition 查找条件。
+	     * @return 查找到的结果
+	     */
+	    @Override
+	    public ResultSet select(String condition) throws SQLException {
+	        return DbBasic.select(getDbPath(), getTableName(), "*", condition);
+	    }
+	    
+	    
+	    /**
+	     * 根据条件查找部分列（未实现）
+	     *
+	     * @param cols      被查找的列。
+	     * @param condition 查找条件。
+	     * @return 查找到的结果
+	     */
+	    @Override
+	    public ResultSet select(String cols, String condition) throws SQLException {
+	        return DbBasic.select(getDbPath(), getTableName(), cols, condition);
+	    }
+	    public String oneRsToString(ResultSet rs) throws SQLException {
+	        rs.next();
+	        return oneRsToStringWithoutNext(rs);
+	    }
+
+
+	    public String oneRsToStringWithoutNext(ResultSet rs) throws SQLException {
+	        StringBuilder ret = new StringBuilder();
+
+	        ret.append("id:").append(rs.getString("id"))
+	                .append(";goodsId:").append(rs.getString("goodsId"))
+	                .append(";goodsName:").append(rs.getString("goodsName"))
+	                .append(";goodsNumber:").append(rs.getString("goodsNumber"))
+	                .append(";purchasePrice:").append(rs.getString("purchasePrice"))
+
+	                .append(";price:").append(rs.getString("price"))
+	                .append(";productDate:").append(rs.getString("productDate"))
+	                .append(";shelfLife:").append(rs.getString("shelfLife"))
+	                .append(";goodsPlace:").append(rs.getString("goodsPlace"))
+	                .append(";goodsClass:").append(rs.getString("goodsClass"))
+
+	                .append(";");
+	        return ret.toString();
+	    }
+	    List<String> rsToString(ResultSet rs) throws SQLException {
+	        String ret;
+	        List<String> goodsList = new ArrayList<>();
+	        while (rs.next()) {
+	            ret = oneRsToStringWithoutNext(rs);
+	            goodsList.add(ret);
+	        }
+	        return goodsList;
+	    }
+	    @Override
+	    public String getDbPath() {
+	        return dbPath;
+	    }
+
+	    @Override
+	    public String getTableName() {
+
+	        return tableName;
+	    }
+
+}
+package database.GoodsDb;
+import infm.shop.Order;
+import infm.shop.Article;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import database.DbBasic;
+
+public class SaleDb extends GoodsDb{
+      	private String tableName = "Sale";
+
+        public SaleDb() {
+        super();
+        }
+
+        public SaleDb(String dbPath, String tableName) {
+        super(dbPath, tableName);
+        this.tableName = tableName;
+        }
+	    @Override
+	    public void add(Object sale) throws SQLException {
+
+	        Connection conn = getConn();
+
+	        String sql = "INSERT INTO " + getTableName() + " (id,name," +
+	                "purchasePrice,saleNumber,sumPrice,saleDate,cardNumber,place)" +
+	                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+
+	        pstmt.setLong(1, ((Order) sale).getId());
+	        pstmt.setString(2, ((Article) sale).getName());
+	        pstmt.setDouble(3, ((Article) sale).getPurchasePrice());
+	        pstmt.setString(4, ((Order) sale).getSaleNumber());
+	        pstmt.setDouble(5, ((Order) sale).getSumPrice());
+	        pstmt.setString(6, ((Order) sale).getSaleDate().toString());
+	        pstmt.setLong(7, ((Order) sale).getCardNumber());
+	        pstmt.setString(8, ((Order) sale).getPlace());
+	        pstmt.executeUpdate();
+
+	        ResultSet rs = pstmt.getGeneratedKeys();
+	        rs.next();
+
+	        ((Order) sale).setId(rs.getLong(1));
+
+	        pstmt.close();
+	        conn.close();
+	    }
+
+	    @Override
+	    public void modify(Object sale) throws SQLException {
+
+	        Connection conn = getConn();
+
+	        String sql = "UPDATE " + getTableName()
+
+	                + "', name='" + ((Article) sale).getName()
+	                + "', purchasePrice='" + ((Article) sale).getPurchasePrice()
+	                + "', saleNumber='" + ((Order) sale).getSaleNumber()
+	                + "', sumPrice='" + ((Order) sale).getSumPrice()
+
+	                + "', saleDate='" + ((Order) sale).getSaleDate()
+	                + "', cardNumber='" + ((Order) sale).getCardNumber()
+	                + "', place='" + ((Order) sale).getPlace()
+	                
+	                + "' WHERE id='" + ((Order) sale).getId() + "'";
+
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.executeUpdate();
+
+	        pstmt.close();
+	        conn.close();
+	    }
+
+	    @Override
+	    public void delete(long id) throws SQLException {
+	        DbBasic.delete(getDbPath(), getTableName(), id);
+	    }
+
+	    @Override
+	    public String getTableName() {
+	        return tableName;
+	    }
+}
+
