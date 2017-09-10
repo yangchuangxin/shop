@@ -1,0 +1,85 @@
+package database.GoodsDb;
+import infm.shop.Order;
+import infm.shop.Article;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import database.DbBasic;
+
+public class SaleDb extends GoodsDb{
+      	private String tableName = "Sale";
+
+        public SaleDb() {
+        super();
+        }
+
+        public SaleDb(String dbPath, String tableName) {
+        super(dbPath, tableName);
+        this.tableName = tableName;
+        }
+	    @Override
+	    public void add(Object sale) throws SQLException {
+
+	        Connection conn = getConn();
+
+	        String sql = "INSERT INTO " + getTableName() + " (id,name," +
+	                "purchasePrice,saleNumber,sumPrice,saleDate,cardNumber,place)" +
+	                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+
+	        pstmt.setLong(1, ((Order) sale).getId());
+	        pstmt.setString(2, ((Article) sale).getName());
+	        pstmt.setDouble(3, ((Article) sale).getPurchasePrice());
+	        pstmt.setString(4, ((Order) sale).getSaleNumber());
+	        pstmt.setDouble(5, ((Order) sale).getSumPrice());
+	        pstmt.setString(6, ((Order) sale).getSaleDate().toString());
+	        pstmt.setLong(7, ((Order) sale).getCardNumber());
+	        pstmt.setString(8, ((Order) sale).getPlace());
+	        pstmt.executeUpdate();
+
+	        ResultSet rs = pstmt.getGeneratedKeys();
+	        rs.next();
+
+	        ((Order) sale).setId(rs.getLong(1));
+
+	        pstmt.close();
+	        conn.close();
+	    }
+
+	    @Override
+	    public void modify(Object sale) throws SQLException {
+
+	        Connection conn = getConn();
+
+	        String sql = "UPDATE " + getTableName()
+
+	                + "', name='" + ((Article) sale).getName()
+	                + "', purchasePrice='" + ((Article) sale).getPurchasePrice()
+	                + "', saleNumber='" + ((Order) sale).getSaleNumber()
+	                + "', sumPrice='" + ((Order) sale).getSumPrice()
+
+	                + "', saleDate='" + ((Order) sale).getSaleDate()
+	                + "', cardNumber='" + ((Order) sale).getCardNumber()
+	                + "', place='" + ((Order) sale).getPlace()
+	                
+	                + "' WHERE id='" + ((Order) sale).getId() + "'";
+
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.executeUpdate();
+
+	        pstmt.close();
+	        conn.close();
+	    }
+
+	    @Override
+	    public void delete(long id) throws SQLException {
+	        DbBasic.delete(getDbPath(), getTableName(), id);
+	    }
+
+	    @Override
+	    public String getTableName() {
+	        return tableName;
+	    }
+}
