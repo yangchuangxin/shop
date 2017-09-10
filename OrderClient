@@ -1,0 +1,56 @@
+package client;
+
+import java.io.IOException;
+
+import infm.shop.Order;
+
+public interface OrderClient {
+	  /**
+     * 添加订单信息信息
+     *
+     * @param order 被添加的订单信息
+     * @return 操作成功与否
+     */
+	 String addArticle(Order order) throws IOException;  //订单信息添加
+
+	 
+	 
+	 /**
+	     * 删除订单信息
+	     *
+	     * @param id 被删除的订单 id
+	     * @return 操作成功与否
+	     */
+	    String deleteOrder(long id) throws IOException;  //删除订单
+	    
+	    
+	    
+	    /**
+	     * 删除订单中的某个商品信息
+	     *
+	     * @param name 被删除商品的 name
+	     * @return 操作成功与否
+	     */
+	    String deleteArticle(String name) throws IOException;  //删除商品
+	    
+	    
+	    /**
+	     * 查询订单ID
+	     *
+	     * @return 返回订单信息
+	     */
+	    String queryOrder(long id) throws IOException; //查询订单信息
+	    
+	    
+	    
+	    /** 
+	        * 修改订单信息
+	        * 
+	        * 查询订单id和订单中某个商品的名字来修改订单信息
+	        * @return 操作成功与否
+	        */
+	    String modifyOrder(long id,String name) throws IOException; //修改订单信息
+	    
+	    
+	    
+}
